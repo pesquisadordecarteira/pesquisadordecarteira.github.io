@@ -308,6 +308,13 @@
 <script>
 (function(){
 'use strict';
+var BUILD='20261008002549';
+try{
+  fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){ return r.ok? r.json() : null; }).then(function(j){
+    var cur=(location.search.match(/[?&]v=([^&]*)/)||[])[1];
+    if(j&&j.v&&j.v!==BUILD&&cur!==j.v) location.replace(location.pathname+'?v='+encodeURIComponent(j.v));
+  }).then(null,function(){});
+}catch(e){}
 
 var COLS=['Pedido','Emissão','Embarque','Cliente','Cliente Remessa','Pedido Cliente','Cond Pgto','Prazo Medio','Situação','Sit Linha','Motivo Cancel Linha','Notas Fiscais','Datas','Descrição','Quantidade','qtde_faturada','Saldo','Valor Unitário Liquido','Valor Total'];
 var KEYS=['pedido','emissao','embarque','cliente','remessa','pedCli','cond','prazo','sit','sitLinha','motivo','nfs','datas','desc','qtd','fat','saldo','unit','total'];
