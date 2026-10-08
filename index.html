@@ -418,7 +418,7 @@ function renderTiles(){
   $('kQtd').textContent=fmtNum(k.qtd);
   $('kQtdSub').textContent='faturada '+fmtNum(k.qtdFat)+' · saldo '+fmtNum(k.qtdSaldo);
   $('kPreco').textContent=k.pmQtd>0? fmtBRL(k.pmValor/k.pmQtd) : '—';
-  $('kPrecoSub').textContent=k.nUnit? 'média simples '+fmtBRL(k.sumUnit/k.nUnit)+' · sem preços abaixo de '+fmtBRL(PRECO_MIN)+(k.nLow? ' ('+fmtInt(k.nLow)+(k.nLow===1?' linha fora)':' linhas fora)') : '') : (k.nLow? 'só há preços abaixo de '+fmtBRL(PRECO_MIN) : '');
+  $('kPrecoSub').textContent=k.nUnit? 'média simples '+fmtBRL(k.sumUnit/k.nUnit) : '';
   S.kf=k; S.kfLabel= all? 'toda a carteira' : monthLabel(S.month)+' (por '+(S.monthBy==='emissao'?'emissão':'embarque')+')';
   renderChart();
 }
