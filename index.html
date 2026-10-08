@@ -306,7 +306,7 @@
   <p class="footnote" id="footnote">
     <b>Como os números são calculados.</b> Cada pedido conta uma vez, mesmo com várias linhas. <b>Em aberto</b>: pedido com alguma linha não cancelada e saldo a faturar. <b>Faturado</b>: pedido sem saldo e com quantidade faturada. <b>Cancelado</b>: todas as linhas canceladas.
     <b>Valor total</b> = Quantidade × Valor Unitário Líquido das linhas não canceladas; <b>valor faturado</b> = qtde_faturada × Valor Unitário Líquido; <b>valor em aberto</b> = Saldo × Valor Unitário Líquido (a coluna “Valor Total” do arquivo).
-    <b>Quantidade vendida</b> = soma da Quantidade das linhas não canceladas; <b>preço médio praticado</b> = valor total ÷ quantidade vendida (média ponderada pelo volume); a média simples é a média do Valor Unitário Líquido dessas linhas. <b>Compras por cliente</b>: participação de cada Cliente no valor (ou na quantidade) das linhas não canceladas.
+    <b>Quantidade vendida</b> = soma da Quantidade das linhas não canceladas; <b>preço médio praticado</b> = valor ÷ quantidade (média ponderada pelo volume) das linhas não canceladas com Valor Unitário Líquido a partir de R$ 13,00; preços abaixo de R$ 13,00 ficam fora dessa conta e da média simples, mas continuam na quantidade, nos valores e no gráfico. <b>Compras por cliente</b>: participação de cada Cliente no valor (ou na quantidade) das linhas não canceladas.
     <b>Atrasado</b>: linha não cancelada, com saldo, e Embarque anterior a hoje.
     <b>Filtro de mês</b>: considera só as linhas cuja data de Embarque (ou de Emissão, conforme a escolha) cai no mês selecionado; a lista de pedidos atrasados mostra sempre todos os atrasados.
   </p>
@@ -321,6 +321,7 @@ var COLS=['Pedido','Emissão','Embarque','Cliente','Cliente Remessa','Pedido Cli
 var KEYS=['pedido','emissao','embarque','cliente','remessa','pedCli','cond','prazo','sit','sitLinha','motivo','nfs','datas','desc','qtd','fat','saldo','unit','total'];
 var NUMK={prazo:1,qtd:1,fat:1,saldo:1,unit:1,total:1};
 var CHUNK=180000;
+var PRECO_MIN=13; /* preços unitários abaixo disso ficam fora do preço médio */
 
 var S={data:null, db:null, user:null, sample:null, canWrite:null, useTools:false, turns:[], busy:false, ctl:null, loadedVersion:null, loadToken:0, agentOff:false, month:'todos', monthBy:'embarque'};
 function $(id){return document.getElementById(id);}
@@ -351,13 +352,13 @@ function setData(meta, arrs){
 }
 function compute(rows){
   var today=todayISO();
-  var k={linhas:rows.length, qtd:0, qtdFat:0, qtdSaldo:0, sumUnit:0, nUnit:0, cli:{}, valor:0, valorFat:0, valorAberto:0, peds:0, fat:0, aberto:0, canc:0, parcial:0, late:[], latePeds:0, lateValor:0};
+  var k={linhas:rows.length, qtd:0, qtdFat:0, qtdSaldo:0, sumUnit:0, nUnit:0, pmQtd:0, pmValor:0, nLow:0, cli:{}, valor:0, valorFat:0, valorAberto:0, peds:0, fat:0, aberto:0, canc:0, parcial:0, late:[], latePeds:0, lateValor:0};
   var by={};
   rows.forEach(function(r){
     (by[r.pedido]=by[r.pedido]||[]).push(r);
     if(!isCanc(r)){
       k.valor+=r.qtd*r.unit; k.valorAberto+=r.saldo*r.unit; k.qtd+=r.qtd; k.qtdFat+=r.fat; k.qtdSaldo+=r.saldo;
-      if(r.unit>0){ k.sumUnit+=r.unit; k.nUnit++; }
+      if(r.unit>=PRECO_MIN){ k.sumUnit+=r.unit; k.nUnit++; k.pmQtd+=r.qtd; k.pmValor+=r.qtd*r.unit; } else k.nLow++;
       var c=k.cli[r.cliente]||(k.cli[r.cliente]={valor:0,qtd:0,peds:{}});
       c.valor+=r.qtd*r.unit; c.qtd+=r.qtd; c.peds[r.pedido]=1;
     }
@@ -416,8 +417,8 @@ function renderTiles(){
   $('kValorAbertoSub').textContent='saldo a faturar';
   $('kQtd').textContent=fmtNum(k.qtd);
   $('kQtdSub').textContent='faturada '+fmtNum(k.qtdFat)+' · saldo '+fmtNum(k.qtdSaldo);
-  $('kPreco').textContent=k.qtd>0? fmtBRL(k.valor/k.qtd) : '—';
-  $('kPrecoSub').textContent=k.nUnit? 'ponderado pelo volume · média simples '+fmtBRL(k.sumUnit/k.nUnit) : '';
+  $('kPreco').textContent=k.pmQtd>0? fmtBRL(k.pmValor/k.pmQtd) : '—';
+  $('kPrecoSub').textContent=k.nUnit? 'média simples '+fmtBRL(k.sumUnit/k.nUnit)+' · sem preços abaixo de '+fmtBRL(PRECO_MIN)+(k.nLow? ' ('+fmtInt(k.nLow)+(k.nLow===1?' linha fora)':' linhas fora)') : '') : (k.nLow? 'só há preços abaixo de '+fmtBRL(PRECO_MIN) : '');
   S.kf=k; S.kfLabel= all? 'toda a carteira' : monthLabel(S.month)+' (por '+(S.monthBy==='emissao'?'emissão':'embarque')+')';
   renderChart();
 }
