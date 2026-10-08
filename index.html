@@ -14,7 +14,7 @@
     --title:#0a2c5e; --accent:#0b3c7d; --accent-strong:#0b3c7d; --accent-fg:#ffffff; --link:#1c5fb0;
     --tint:#e6eef8; --tint-strong:#cfdcf0;
     --rust:#c0392b; --rust-light:#fbeceb; --rust-ink:#8f2419; --rust-solid:#c0392b; --rust-solid-fg:#ffffff; --rust-border:#f0c4be;
-    --warn:#a8520f; --warn-bg:#fdf1e4;
+    --warn:#a8520f; --warn-bg:#fdf1e4; --bar:#1c5fb0;
     --good:#0b7a45; --good-bg:#e4f5eb;
     --head-a:#061f45; --head-b:#0a2c5e; --head-c:#0b3c7d; --head-fg:#ffffff; --head-muted:#cfdcf0; --stitch:#3d8fd6; --head-chip:rgba(255,255,255,.12);
     --font: 'Poppins','Segoe UI',Roboto,Arial,sans-serif;
@@ -25,7 +25,7 @@
       --title:#cfe0f7; --accent:#6fb0ee; --accent-strong:#1c5fb0; --accent-fg:#ffffff; --link:#7fb8ee;
       --tint:#15294a; --tint-strong:#1f3a66;
       --rust:#ff8375; --rust-light:#3a1a1c; --rust-ink:#ffb4a8; --rust-solid:#c0392b; --rust-solid-fg:#ffffff; --rust-border:#6a2a27;
-      --warn:#f0a35e; --warn-bg:#3a2815;
+      --warn:#f0a35e; --warn-bg:#3a2815; --bar:#5aa5e6;
       --good:#4fd08e; --good-bg:#12301f;
       --head-a:#040d1c; --head-b:#08204a; --head-c:#0b3c7d; --head-fg:#ffffff; --head-muted:#cfdcf0; --stitch:#3d8fd6; --head-chip:rgba(255,255,255,.12);
       color-scheme: dark;
@@ -36,7 +36,7 @@
     --title:#cfe0f7; --accent:#6fb0ee; --accent-strong:#1c5fb0; --accent-fg:#ffffff; --link:#7fb8ee;
     --tint:#15294a; --tint-strong:#1f3a66;
     --rust:#ff8375; --rust-light:#3a1a1c; --rust-ink:#ffb4a8; --rust-solid:#c0392b; --rust-solid-fg:#ffffff; --rust-border:#6a2a27;
-    --warn:#f0a35e; --warn-bg:#3a2815;
+    --warn:#f0a35e; --warn-bg:#3a2815; --bar:#5aa5e6;
     --good:#4fd08e; --good-bg:#12301f;
     --head-a:#040d1c; --head-b:#08204a; --head-c:#0b3c7d; --head-fg:#ffffff; --head-muted:#cfdcf0; --stitch:#3d8fd6; --head-chip:rgba(255,255,255,.12);
     color-scheme: dark;
@@ -125,16 +125,35 @@
   .filters select:focus{outline:2px solid var(--accent); border-color:var(--accent);}
   .filters .fnote{font-size:12.5px; color:var(--muted); padding-bottom:9px; flex:1 1 220px; min-width:0;}
   .filters .fnote b{color:var(--title);}
-  .tiles{display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:14px;}
+  .tiles{display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:14px;}
   .tile{background:var(--tint); border-radius:10px; padding:14px 16px; min-width:0;}
   .tile .lbl{font-size:11.5px; color:var(--muted); text-transform:uppercase; font-weight:600; letter-spacing:.5px;}
   .tile .val{font-size:26px; font-weight:800; color:var(--title); line-height:1.2; margin-top:2px; font-variant-numeric:tabular-nums; overflow-wrap:anywhere;}
-  .tile .val.money{font-size:22px;}
+  .tile .val.money{font-size:21px;}
   .tile .sub{font-size:12px; color:var(--muted); margin-top:2px;}
   .tile.good{background:var(--good-bg);} .tile.good .val{color:var(--good);}
   .tile.open{background:var(--warn-bg);} .tile.open .val{color:var(--warn);}
   .tile .sub b.late{color:var(--rust);}
-  @media (max-width:760px){ .tiles{grid-template-columns:repeat(2, minmax(0,1fr));} }
+  @media (max-width:1060px){ .tiles{grid-template-columns:repeat(2, minmax(0,1fr));} }
+  /* Gráfico de compras por cliente */
+  .chartblock{margin-top:22px; border-top:1px solid var(--border); padding-top:16px;}
+  .charthead{display:flex; justify-content:space-between; align-items:flex-end; gap:10px 16px; flex-wrap:wrap;}
+  .charthead h3{margin:0; font-size:13px; color:var(--title); text-transform:uppercase; letter-spacing:1px; font-weight:700;}
+  .charthead label{display:flex; align-items:center; gap:8px; font-size:11.5px; color:var(--muted); font-weight:600; text-transform:uppercase; letter-spacing:.5px;}
+  .charthead select{font-family:inherit; font-size:13px; font-weight:600; color:var(--title); background:var(--surface-2); border:1px solid var(--border); border-radius:8px; padding:7px 9px;}
+  .chartnote{font-size:12.5px; color:var(--muted); margin:6px 0 12px;}
+  .bars{display:flex; flex-direction:column;}
+  .bar{display:grid; grid-template-columns:minmax(0,270px) minmax(60px,1fr) 136px 58px; gap:4px 14px; align-items:center; padding:7px 6px; border-bottom:1px solid var(--border); font-size:13px; font-variant-numeric:tabular-nums;}
+  .bar:last-child{border-bottom:0;}
+  .bar:hover{background:var(--tint);}
+  .bname{font-weight:600; overflow-wrap:anywhere; min-width:0;}
+  .btrack{height:12px; background:var(--tint); border-radius:0 4px 4px 0; min-width:0;}
+  .bar:hover .btrack{background:var(--tint-strong);}
+  .bfill{height:100%; min-width:2px; background:var(--bar); border-radius:0 4px 4px 0;}
+  .bval{text-align:right; white-space:nowrap; color:var(--ink);}
+  .bpct{text-align:right; white-space:nowrap; font-weight:700; color:var(--title);}
+  .bars .empty{padding:10px 4px;}
+  @media (max-width:640px){ .bar{grid-template-columns:minmax(0,1fr) 122px 54px;} .bname{grid-column:1 / -1;} }
   @media (max-width:430px){ .tiles{grid-template-columns:1fr;} .top{padding:18px 16px 22px;} .card{padding:16px 14px;} .filebox{align-items:flex-start;} .filechip,.filemsg{text-align:left;} .deep{margin-left:0;} }
 
   /* Atrasados */
@@ -258,9 +277,21 @@
       <div class="tile"><div class="lbl">Pedidos na carteira</div><div class="val" id="kPedidos">—</div><div class="sub" id="kPedidosSub">&nbsp;</div></div>
       <div class="tile good"><div class="lbl">Pedidos faturados</div><div class="val" id="kFat">—</div><div class="sub" id="kFatSub">&nbsp;</div></div>
       <div class="tile open"><div class="lbl">Pedidos em aberto</div><div class="val" id="kAberto">—</div><div class="sub" id="kAbertoSub">&nbsp;</div></div>
+      <div class="tile"><div class="lbl">Quantidade vendida</div><div class="val" id="kQtd">—</div><div class="sub" id="kQtdSub">&nbsp;</div></div>
       <div class="tile"><div class="lbl">Valor total dos pedidos</div><div class="val money" id="kValor">—</div><div class="sub" id="kValorSub">&nbsp;</div></div>
       <div class="tile good"><div class="lbl">Valor faturado</div><div class="val money" id="kValorFat">—</div><div class="sub" id="kValorFatSub">&nbsp;</div></div>
       <div class="tile open"><div class="lbl">Valor em aberto</div><div class="val money" id="kValorAberto">—</div><div class="sub" id="kValorAbertoSub">&nbsp;</div></div>
+      <div class="tile"><div class="lbl">Preço médio praticado</div><div class="val money" id="kPreco">—</div><div class="sub" id="kPrecoSub">&nbsp;</div></div>
+    </div>
+    <div class="chartblock">
+      <div class="charthead">
+        <h3 id="hChart">Compras por cliente</h3>
+        <label for="chartBy">Medida
+          <select id="chartBy"><option value="valor">Valor (R$)</option><option value="qtd">Quantidade</option></select>
+        </label>
+      </div>
+      <p class="chartnote" id="chartNote">Participação de cada cliente nas compras do período selecionado.</p>
+      <div class="bars" id="clientBars" role="table" aria-labelledby="hChart"><p class="empty">Aguardando a carteira.</p></div>
     </div>
   </section>
 
@@ -275,6 +306,7 @@
   <p class="footnote" id="footnote">
     <b>Como os números são calculados.</b> Cada pedido conta uma vez, mesmo com várias linhas. <b>Em aberto</b>: pedido com alguma linha não cancelada e saldo a faturar. <b>Faturado</b>: pedido sem saldo e com quantidade faturada. <b>Cancelado</b>: todas as linhas canceladas.
     <b>Valor total</b> = Quantidade × Valor Unitário Líquido das linhas não canceladas; <b>valor faturado</b> = qtde_faturada × Valor Unitário Líquido; <b>valor em aberto</b> = Saldo × Valor Unitário Líquido (a coluna “Valor Total” do arquivo).
+    <b>Quantidade vendida</b> = soma da Quantidade das linhas não canceladas; <b>preço médio praticado</b> = valor total ÷ quantidade vendida (média ponderada pelo volume); a média simples é a média do Valor Unitário Líquido dessas linhas. <b>Compras por cliente</b>: participação de cada Cliente no valor (ou na quantidade) das linhas não canceladas.
     <b>Atrasado</b>: linha não cancelada, com saldo, e Embarque anterior a hoje.
     <b>Filtro de mês</b>: considera só as linhas cuja data de Embarque (ou de Emissão, conforme a escolha) cai no mês selecionado; a lista de pedidos atrasados mostra sempre todos os atrasados.
   </p>
@@ -319,11 +351,16 @@ function setData(meta, arrs){
 }
 function compute(rows){
   var today=todayISO();
-  var k={linhas:rows.length, valor:0, valorFat:0, valorAberto:0, peds:0, fat:0, aberto:0, canc:0, parcial:0, late:[], latePeds:0, lateValor:0};
+  var k={linhas:rows.length, qtd:0, qtdFat:0, qtdSaldo:0, sumUnit:0, nUnit:0, cli:{}, valor:0, valorFat:0, valorAberto:0, peds:0, fat:0, aberto:0, canc:0, parcial:0, late:[], latePeds:0, lateValor:0};
   var by={};
   rows.forEach(function(r){
     (by[r.pedido]=by[r.pedido]||[]).push(r);
-    if(!isCanc(r)){ k.valor+=r.qtd*r.unit; k.valorAberto+=r.saldo*r.unit; }
+    if(!isCanc(r)){
+      k.valor+=r.qtd*r.unit; k.valorAberto+=r.saldo*r.unit; k.qtd+=r.qtd; k.qtdFat+=r.fat; k.qtdSaldo+=r.saldo;
+      if(r.unit>0){ k.sumUnit+=r.unit; k.nUnit++; }
+      var c=k.cli[r.cliente]||(k.cli[r.cliente]={valor:0,qtd:0,peds:{}});
+      c.valor+=r.qtd*r.unit; c.qtd+=r.qtd; c.peds[r.pedido]=1;
+    }
     k.valorFat+=r.fat*r.unit;
     if(isLate(r,today)) k.late.push(r);
   });
@@ -377,6 +414,26 @@ function renderTiles(){
   $('kValorFatSub').textContent=k.valor? (k.valorFat/k.valor*100).toLocaleString('pt-BR',{maximumFractionDigits:1})+'% do valor total' : '';
   $('kValorAberto').textContent=fmtBRL(k.valorAberto);
   $('kValorAbertoSub').textContent='saldo a faturar';
+  $('kQtd').textContent=fmtNum(k.qtd);
+  $('kQtdSub').textContent='faturada '+fmtNum(k.qtdFat)+' · saldo '+fmtNum(k.qtdSaldo);
+  $('kPreco').textContent=k.qtd>0? fmtBRL(k.valor/k.qtd) : '—';
+  $('kPrecoSub').textContent=k.nUnit? 'ponderado pelo volume · média simples '+fmtBRL(k.sumUnit/k.nUnit) : '';
+  S.kf=k; S.kfLabel= all? 'toda a carteira' : monthLabel(S.month)+' (por '+(S.monthBy==='emissao'?'emissão':'embarque')+')';
+  renderChart();
+}
+function renderChart(){
+  var k=S.kf; if(!k) return;
+  var by=$('chartBy').value==='qtd'?'qtd':'valor', fmt=by==='qtd'? fmtNum : fmtBRL;
+  var list=Object.keys(k.cli).map(function(n){ return {n:n, v:k.cli[n][by], o:k.cli[n]}; }).filter(function(x){ return x.v>0; }).sort(function(a,b){ return b.v-a.v; });
+  var total=list.reduce(function(a,x){ return a+x.v; },0), max=list.length? list[0].v : 0;
+  var pct=function(v){ var x=v/total*100; return (x>0&&x<0.05)? '<0,1%' : x.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})+'%'; };
+  $('chartNote').textContent= list.length? 'Participação de cada cliente '+(by==='qtd'?'na quantidade vendida':'no valor dos pedidos')+' de '+S.kfLabel+', sem linhas canceladas. '+list.length+(list.length===1?' cliente':' clientes')+' · total '+fmt(total)+'.' : 'Sem compras no período selecionado.';
+  if(!list.length){ $('clientBars').innerHTML='<p class="empty">Nenhum cliente com compras no período selecionado.</p>'; return; }
+  $('clientBars').innerHTML=list.map(function(x){
+    var np=Object.keys(x.o.peds).length;
+    var tip=x.n+' — '+fmtBRL(x.o.valor)+' · quantidade '+fmtNum(x.o.qtd)+' · '+np+(np===1?' pedido':' pedidos')+' · '+pct(x.v)+' do total';
+    return '<div class="bar" role="row" title="'+esc(tip)+'"><div class="bname" role="cell">'+esc(x.n)+'</div><div class="btrack" role="cell"><div class="bfill" style="width:'+(x.v/max*100).toFixed(2)+'%"></div></div><div class="bval" role="cell">'+fmt(x.v)+'</div><div class="bpct" role="cell">'+pct(x.v)+'</div></div>';
+  }).join('');
 }
 function renderLate(k){
   var card=$('lateCard'), body=$('lateBody');
@@ -793,6 +850,7 @@ $('btnClear').addEventListener('click',function(){ clearThread(); $('q').focus()
 $('chips').addEventListener('click',function(ev){ var b=ev.target.closest('.chip'); if(b) ask(b.textContent); });
 $('btnUpdate').addEventListener('click',function(){ $('fileInput').click(); });
 $('monthSel').addEventListener('change',function(){ S.month=this.value; if(S.data) renderTiles(); });
+$('chartBy').addEventListener('change',renderChart);
 $('monthBy').addEventListener('change',function(){ S.monthBy=this.value; if(S.data){ fillMonths(); renderTiles(); } });
 $('fileInput').addEventListener('change',function(){ var f=this.files&&this.files[0]; if(f) onFile(f); });
 
