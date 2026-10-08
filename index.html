@@ -302,14 +302,6 @@
     </div>
     <div class="latebody" id="lateBody"><p class="empty">Aguardando a carteira para listar os pedidos com embarque vencido e saldo a faturar.</p></div>
   </section>
-
-  <p class="footnote" id="footnote">
-    <b>Como os números são calculados.</b> Cada pedido conta uma vez, mesmo com várias linhas. <b>Em aberto</b>: pedido com alguma linha não cancelada e saldo a faturar. <b>Faturado</b>: pedido sem saldo e com quantidade faturada. <b>Cancelado</b>: todas as linhas canceladas.
-    <b>Valor total</b> = Quantidade × Valor Unitário Líquido das linhas não canceladas; <b>valor faturado</b> = qtde_faturada × Valor Unitário Líquido; <b>valor em aberto</b> = Saldo × Valor Unitário Líquido (a coluna “Valor Total” do arquivo).
-    <b>Quantidade vendida</b> = soma da Quantidade das linhas não canceladas; <b>preço médio praticado</b> = valor ÷ quantidade (média ponderada pelo volume) das linhas não canceladas com Valor Unitário Líquido a partir de R$ 13,00; preços abaixo de R$ 13,00 ficam fora dessa conta e da média simples, mas continuam na quantidade, nos valores e no gráfico. <b>Compras por cliente</b>: participação de cada Cliente no valor (ou na quantidade) das linhas não canceladas.
-    <b>Atrasado</b>: linha não cancelada, com saldo, e Embarque anterior a hoje.
-    <b>Filtro de mês</b>: considera só as linhas cuja data de Embarque (ou de Emissão, conforme a escolha) cai no mês selecionado; a lista de pedidos atrasados mostra sempre todos os atrasados.
-  </p>
 </div>
 <input type="file" id="fileInput" accept=".xlsx,.xls,.xlsm,.csv" hidden>
 
